@@ -6,6 +6,16 @@ import re
 import random
 #from numpy import genfromtxt  ----> data = genfromtxt('daten.csv', delimiter = ',') um csv einzulesen
 def lineare_regression(anzahl_versuche, folder='Messdaten'):
+    ''' 
+        führt komplette lineare Regression durch
+
+        input: anzahl_versuche (),
+               folder (str), Name des Ordners in dem sich die Messdaten befinden 
+                
+        output: betas (int), Betas der linearen Regression
+                abweichung_min (int), Minimale Abweichung
+                
+    '''
     total_data_array, concentrations = create_data_arrays(folder)
     text_file_length = len(total_data_array[0][0])
     
@@ -35,12 +45,22 @@ def lineare_regression(anzahl_versuche, folder='Messdaten'):
             betas = [b1,b2,b3,b4,b5,b6,b7,b8,b9]
             abweichung_min = abweichung_ges
 
-    print(betas,abweichung_min)
+    return betas,abweichung_min
         
 
         
         
 def get_array_sum(array, b1, b2):
+    ''' 
+        errechnet Summe aus dem Array
+
+        input: array (list), 
+               b1 (int), 
+               b2 (int),
+                
+        output: sum (int), Errechnete Summe
+                
+    '''
     sum = 0
     for i in range(b1, b2):
         sum += array[i][1]
@@ -50,6 +70,13 @@ def get_array_sum(array, b1, b2):
 
         
 def get_random_betas(len):
+    ''' erstellt zufällige Betas für Regression
+
+        input: len(int),   
+                
+        output: beta 1-9(int), zufällig gewählte betas
+                
+    '''
     x1 = random.randint(709,756)
     x2 = random.randint(709,756)
     beta1 = min(x1,x2)
@@ -79,7 +106,13 @@ def get_random_betas(len):
 
 
 def get_sum_arrays(folder='Messdaten'):
-
+    ''' 
+    
+        input: folder (str), Name des Ordners in dem sich die Messdaten befinden 
+                
+        output: compact_array (list),
+                
+    '''
     
     total_data_array, concentrations = create_data_arrays(folder)
     compact_array = []
@@ -117,6 +150,15 @@ def get_sum_arrays(folder='Messdaten'):
 
 
 def get_row(array, row):
+    ''' 
+        errechnet Reihe für 
+
+        input: array (list), 
+               row (int), Reihennummer   
+                
+        output: erg (list), errechnete Reihe
+                
+    '''
     erg=[]
     for i in array:
         erg.append(i[row])
@@ -125,6 +167,20 @@ def get_row(array, row):
 
 
 def create_data_arrays(folder='Messdaten'):
+    ''' 
+        Das hier erstellte Array total_data_array hat folgende Form:
+        Die Oberste Schicht der arrays entspricht den verschiedenen Kontentrationen(Bsp. 50mg 20mg etc.)
+        Diese sind in concentrations abgespeichert um diese später zuordnen zu können
+
+        In dem unterarray total_data_array[x] sind nun alle Messdaten mit der entsprechenden Konzentration abgespeichert,
+        wobei die messwerte für konformität durch die verwendete Leistung (zeit*energie) geteilt wurden.
+
+        input:  folder(str), Ordner in dem sich befinden
+                
+        output: total_data_array (list), 
+                concentrations (list),
+                
+    '''
     if folder not in  os.getcwd():   
         os.chdir(folder)
     folder = os.getcwd()
@@ -153,21 +209,19 @@ def create_data_arrays(folder='Messdaten'):
                 for k in range(len(concentrations)):
                     if concentrations[k] == konzentration:
                         total_data_array[k].append(array)
-
-    '''
-    Das hier erstellte Array total_data_array hat folgende Form:
-    Die Oberste Schicht der arrays entspricht den verschiedenen Kontentrationen(Bsp. 50mg 20mg etc.)
-    Diese sind in concentrations abgespeichert um diese später zuordnen zu können
-
-    In dem unterarray total_data_array[x] sind nun alle Messdaten mit der entsprechenden Konzentration abgespeichert,
-    wobei die messwerte für konformität durch die verwendete Leistung (zeit*energie) geteilt wurden.
-    
-    '''
-
     return total_data_array, concentrations
 
 
 def messdaten_einlesen_und_normen(folder, total_energy):
+    ''' 
+        liest Messdaten ein und normt diese
+
+        input: folder (str), Name des Ordners in dem sich die Messdaten befinden  
+               total_energy (int),  
+                
+        output: array (list), 
+                
+    '''
     array = np.loadtxt(folder)
 
     for i in range(len(array)):
