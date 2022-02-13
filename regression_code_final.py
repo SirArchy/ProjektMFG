@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
-from scipy.optimize import minimize
+import matplotlib.pyplot as plt # type: ignore
+from scipy.optimize import minimize # type: ignore
 import os
-import numpy as np
-from mpl_toolkits import mplot3d
+import numpy as np # type: ignore
+from mpl_toolkits import mplot3d # type: ignore
 
 data = np.zeros((180, 5))  # Initialisierung der leeren Matrix
 row_id = 0
@@ -15,7 +15,6 @@ def extract_konz(file_name):  # gibt die Konzentration aus dem Dateinamen zurüc
         number += file_name[i]
         i += 1
     return int(number)
-
 
 file_list = [file for file in os.listdir() if
              file[-9:] == 'intensity']  # sucht sich alle relevanten Datein aus dem Verzeichnis

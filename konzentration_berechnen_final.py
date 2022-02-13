@@ -1,7 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
+import numpy as np # type: ignore
+import matplotlib.pyplot as plt # type: ignore
 import os
-import scipy.signal as sg
+import scipy.signal as sg # type: ignore
 
 
 def konzentration(file_path, beta_folder, i=None):  # file_path = z.B. 'Pentan_10sec_24mW_new/Pentan_100mg_w0.txt'

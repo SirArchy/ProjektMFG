@@ -1,7 +1,7 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-import scipy.signal as sg
+import matplotlib.pyplot as plt # type: ignore
+import numpy as np # type: ignore
+import os 
+import scipy.signal as sg # type: ignore
 import re
 
 ''' Was verbessert werden muss:

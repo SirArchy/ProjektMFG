@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np # type: ignore
 import os
 #import scipy.signal as sg
 import re

@@ -3,27 +3,27 @@
 %load_ext tensorboard
 """ 
 
-import tensorflow as tf            #Hier sind alle entsprechenden Imports
-import sklearn
-import keras_tuner
-from tensorflow import keras
-from tensorflow.keras import datasets, layers, models, optimizers
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers.experimental import preprocessing
-from sklearn.preprocessing import MinMaxScaler
-from tensorflow.keras.callbacks import TensorBoard
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.metrics import RootMeanSquaredError
-from tensorflow.keras.optimizers import Adam, SGD
-from keras_tuner.tuners import RandomSearch
-from sklearn.model_selection import KFold
+import tensorflow as tf   # type: ignore         #Hier sind alle entsprechenden Imports
+import sklearn # type: ignore
+import keras_tuner # type: ignore
+from tensorflow import keras # type: ignore
+from tensorflow.keras import datasets, layers, models, optimizers # type: ignore
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import Dense # type: ignore
+from tensorflow.keras.layers.experimental import preprocessing # type: ignore
+from sklearn.preprocessing import MinMaxScaler # type: ignore
+from tensorflow.keras.callbacks import TensorBoard # type: ignore
+from keras.wrappers.scikit_learn import KerasClassifier # type: ignore
+from sklearn.model_selection import train_test_split # type: ignore
+from tensorflow.keras.metrics import RootMeanSquaredError # type: ignore
+from tensorflow.keras.optimizers import Adam, SGD # type: ignore
+from keras_tuner.tuners import RandomSearch # type: ignore
+from sklearn.model_selection import KFold # type: ignore
 
 import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np # type: ignore
+import pandas as pd # type: ignore
+import matplotlib.pyplot as plt # type: ignore
 
 ## Hier wird unser prepariertes Datenset als CSV Datei geladen
 dataset = pd.read_csv('ki_data_set.csv',
@@ -366,7 +366,7 @@ print('UntereGrenze:', untere_Grenze_100mg, 'ObereGrenze:', obere_Grenze_100mg)
 # json_string = model.to_json()
 
 
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model # type: ignore
 loaded_model = load_model('NNspektrometermodel.h5')   #Model st als .h5 Datei gespeichert
 # loaded_model.get_weights() # to see what the trained weights looks like
 
