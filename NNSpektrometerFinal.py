@@ -1,5 +1,7 @@
+"""
 !pip install -q -U keras-tuner  #Installieren von Tuner Modul von Keras
 %load_ext tensorboard
+""" 
 
 import tensorflow as tf            #Hier sind alle entsprechenden Imports
 import sklearn
@@ -28,7 +30,7 @@ dataset = pd.read_csv('ki_data_set.csv',
                  names = ["Konzentration", "Integrationszeit", "Leistung", "Peak 1", "Peak 2"])              #Es werden den einzelnen Features bzw. Spalten des Dataframe Namen verteilt
 dataset = dataset.sample(frac = 1, random_state=27)        #Das Datenset wird geshuffled und ausgegeben
 dataset
-%%writefile CSVDataSet.ipynb
+#%%writefile CSVDataSet.ipynb
 
 dataset_test = pd.read_csv('ki_data_set_test2.csv',      #Gleiches Prinzip wie in obiger Zelle, es wurden nur die neuen Testdaten zur Evaluierung genommen
                  names = ["Konzentration", "Integrationszeit", "Leistung", "Peak 1", "Peak 2"])
@@ -114,9 +116,9 @@ complex_model.compile(optimizer=Adam(learning_rate=0.01),    #Es wird der Optimi
 
 root_logdir = os.path.join(os.curdir, "my_logs")             #erstellt einen neuen Ordner, indem die runs alle separat gespeichert werden
 def get_run_logdir():
- import time
- run_id = time.strftime("run_%Y_%m_%d-%H_%M_%S")      #Speichert die runs mit entsprechenden Namen ab
- return os.path.join(root_logdir, run_id)             #wechselt wieder das Abreitsverzeichnis zurück
+  import time
+  run_id = time.strftime("run_%Y_%m_%d-%H_%M_%S")      #Speichert die runs mit entsprechenden Namen ab
+  return os.path.join(root_logdir, run_id)             #wechselt wieder das Abreitsverzeichnis zurück
 
 run_logdir = get_run_logdir()
 tensorboard_cb = keras.callbacks.TensorBoard(run_logdir)      #Runs werden mit callbacks verknüpft
@@ -139,7 +141,7 @@ for train_index, test_index in KFold(n_split).split(
 
 # print('Model evaluation ', vorlauf_model.evaluate(x_test,y_test))
 
-%tensorboard --logdir my_logs    #Ergebnisse des Trainings in Tensorboard
+#%tensorboard --logdir my_logs    #Ergebnisse des Trainings in Tensorboard
 
 predictions_complex = complex_model.predict(x=scaled_test_samples, batch_size=32, verbose=0)  #Predictions des trainierten Modells
 print('Gegenüberstellung der vorhergesagten und tatsächlichen Konzentrationen\n')
@@ -166,9 +168,9 @@ vorlauf_model.compile(optimizer=Adam(learning_rate=0.01),    #optimizer Adam und
 
 root_logdir = os.path.join(os.curdir, "my_logs")             #erstellt einen neuen Ordner, indem die run alle separat gespeichert werden
 def get_run_logdir():
- import time
- run_id = time.strftime("run_%Y_%m_%d-%H_%M_%S")
- return os.path.join(root_logdir, run_id)
+  import time
+  run_id = time.strftime("run_%Y_%m_%d-%H_%M_%S")
+  return os.path.join(root_logdir, run_id)
 
 run_logdir = get_run_logdir()
 tensorboard_cb = keras.callbacks.TensorBoard(run_logdir)      #Runs werden mit callbacks verknüpft
@@ -198,7 +200,8 @@ for train_index, test_index in KFold(n_split).split(X):  # , shuffle = True, ran
 
  #!rm -rf my_logs    #hier können alte Logfiles in my_log gelöscht werden
 
-% tensorboard - -logdir
+#% tensorboard - -logdir
+
 my_logs  # speichert log files vom Tensorboard
 
 # def plot_loss(history):
@@ -261,36 +264,36 @@ list_20 = []
 list_50 = []
 list_100 = []
 for i in range (len(pred_list)):   #nehme hier pred_list, diese kann aber auch anders sein, je nach prediction
- if pred_list[i] <= 30:           #hier werden die einzelnen Konzentrationen in weitere Listen geschrieben
-   list_20.append(pred_list[i])
- if 30 <= predictions_test2[i] <= 70:
-   list_50.append(pred_list[i])
- if predictions[i] > 70:
-   list_100.append(pred_list[i])
+  if pred_list[i] <= 30:           #hier werden die einzelnen Konzentrationen in weitere Listen geschrieben
+    list_20.append(pred_list[i])
+  if 30 <= predictions_test2[i] <= 70:
+    list_50.append(pred_list[i])
+  if predictions[i] > 70:
+    list_100.append(pred_list[i])
 #bestimme den Durchschnittswert:
 x20_mean = 0
 for n in range (len(list_20)):
- x20_mean += list_20[n]/len(list_20)
+  x20_mean += list_20[n]/len(list_20)
 
 x50_mean = 0
 for n in range (len(list_50)):
- x50_mean += list_50[n]/len(list_50)
+  x50_mean += list_50[n]/len(list_50)
 
 x100_mean = 0
 for n in range (len(list_100)):
- x100_mean += list_100[n]/len(list_100)
+  x100_mean += list_100[n]/len(list_100)
 #bestimme standardabweichung
 sigma_20 = 0
 for k in range (len(list_20)):
- sigma_20 += (((list_20[k] - 20)**2)/len(list_20))**0.5
+  sigma_20 += (((list_20[k] - 20)**2)/len(list_20))**0.5
 
 sigma_50 = 0
 for k in range (len(list_50)):
- sigma_50 += (((list_50[k] - 50)**2)/len(list_50))**0.5
+  sigma_50 += (((list_50[k] - 50)**2)/len(list_50))**0.5
 
 sigma_100 = 0
 for k in range (len(list_100)):
- sigma_100 += (((list_100[k] - 100)**2)/len(list_100))**0.5
+  sigma_100 += (((list_100[k] - 100)**2)/len(list_100))**0.5
 #bestimme Konfidenz Intervalle:
 untere_Grenze_20mg = x20_mean - 1.645*sigma_20
 obere_Grenze_20mg = x20_mean + 1.645*sigma_20
@@ -310,36 +313,36 @@ list_20 = []
 list_50 = []
 list_100 = []
 for i in range (len(pred_list)):
- if pred_list[i] <= 30:
-   list_20.append(pred_list[i])
- if 30 <= predictions_test[i] <= 70:
-   list_50.append(pred_list[i])
- if predictions[i] > 70:
-   list_100.append(pred_list[i])
+  if pred_list[i] <= 30:
+    list_20.append(pred_list[i])
+  if 30 <= predictions_test[i] <= 70:
+    list_50.append(pred_list[i])
+  if predictions[i] > 70:
+    list_100.append(pred_list[i])
 #bestimme den Durchschnittswert:
 x20_mean = 0
 for n in range (len(list_20)):
- x20_mean += list_20[n]/len(list_20)
+  x20_mean += list_20[n]/len(list_20)
 
 x50_mean = 0
 for n in range (len(list_50)):
- x50_mean += list_50[n]/len(list_50)
+  x50_mean += list_50[n]/len(list_50)
 
 x100_mean = 0
 for n in range (len(list_100)):
- x100_mean += list_100[n]/len(list_100)
+  x100_mean += list_100[n]/len(list_100)
 #bestimme standardabweichung
 sigma_20 = 0
 for k in range (len(list_20)):
- sigma_20 += (((list_20[k] - 20)**2)/len(list_20))**0.5
+  sigma_20 += (((list_20[k] - 20)**2)/len(list_20))**0.5
 
 sigma_50 = 0
 for k in range (len(list_50)):
- sigma_50 += (((list_50[k] - 50)**2)/len(list_50))**0.5
+  sigma_50 += (((list_50[k] - 50)**2)/len(list_50))**0.5
 
 sigma_100 = 0
 for k in range (len(list_100)):
- sigma_100 += (((list_100[k] - 100)**2)/len(list_100))**0.5
+  sigma_100 += (((list_100[k] - 100)**2)/len(list_100))**0.5
 #bestimme Intervalle:
 untere_Grenze_20mg = x20_mean - 1.645*sigma_20
 obere_Grenze_20mg = x20_mean + 1.645*sigma_20
