@@ -26,3 +26,7 @@ def update(val):
     new_y = savgol_filter(y, current_v, 3)
     p.set_ydata(new_y)
     fig.canvas.draw()
+
+# calling the function "update" when the value of the slider is changed
+win_size.on_changed(update)
+plt.show()
