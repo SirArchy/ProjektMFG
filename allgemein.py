@@ -124,7 +124,7 @@ def load_data(folder):
     konzentrationen = kon_arr_erstellen(file_names)
     for i in konzentrationen:
         #a.append([np.loadtxt(file) for file in file_names if i in file])
-        DONDAbetterthanCLB = [np.loadtxt(file) for file in file_names if i in file]
+        DONDAbetterthanCLB = [np.loadtxt(file) for file in file_names if i in file] #Interessante Variablen Namen xD
         KanyeForPresident = np.stack(DONDAbetterthanCLB,axis=-1)
         a.append(KanyeForPresident)
 
@@ -367,4 +367,4 @@ def save_intensity(data_matrix, folder, konz):
     # Arbeitsverzeichnis wieder zurücksetzten so wie vor der Funktion
     os.chdir("..")
         
-    return
+    return #fehlt hier eine Return Variable???
