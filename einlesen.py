@@ -61,11 +61,42 @@ def get_concentrations(list):
     return konz
 
 
-def get_urea_data(folder = '2022_02_25_RamanMessungen'):
+def get_urea_data(folder = 'Urea_Messungen'):
 
     if folder not in  os.getcwd():   
         os.chdir(folder)
 
+    files = os.listdir()
+
+
+#    for i in files:
+        
+
     #path = os.getcwd() + '\\2022_02_25_Messprotokoll.xlsx'
-    excel = pd.read_excel(r'C:\\Users\\Paul\\Desktop\\UNI\\MFG\\KI_Spektroskopie_Quellcode\\Current\\Runde 2\\2022_02_25_RamanMessungen\\2022_02_25_Messprotokoll.xlsx')
-    print(excel)
+    #excel = pd.read_excel(r'C:\\Users\\Paul\\Desktop\\UNI\\MFG\\KI_Spektroskopie_Quellcode\\Current\\Runde 2\\2022_02_25_RamanMessungen\\2022_02_25_Messprotokoll.xlsx')
+    os.chdir("..")
+
+
+def readout_file(file_name):
+    #print(file_name,'   ', os.getcwd())
+    array = np.loadtxt(file_name)
+
+    array = array.transpose()
+    #print(type(array))
+    x_free_array = np.stack([array[i] for i in range(1, array.shape[0], 2)])
+
+    element_name = file_name.replace('.txt','')
+    arr_glatt = np.stack([sg.savgol_filter(x_free_array[i],21,5) for i in range(x_free_array.shape[0])])
+
+
+    name_array = []
+    
+    for i in range(x_free_array.shape[0]):
+        name_array.append(element_name + '_' + str(i+1))
+        arr_glatt[i] = arr_glatt[i] / get_mW_and_s(name_array[0])
+
+    
+
+    #arr_glatt = arr_glatt / get_mW_and_s(name_array[0])
+
+    return arr_glatt, name_array
