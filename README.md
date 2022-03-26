@@ -10,10 +10,10 @@ This is a project to predict the concentration of a mixture with the help of a r
 The project was done for the TU Berlin.
 
 ## Technologies
-Python 3.6
-Thorlabs OSA
-Scipy
-RE
+- Python 3.6 //
+- Thorlabs OSA //
+- Scipy //
+- RE //
 Pandas
 CSV 
 OS
