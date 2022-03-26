@@ -5,7 +5,7 @@
 * [Technologies](#technologies)
 * [Launch](#launch)
 
-##General info
+## General info
 This is a project to predict the concentration of a mixture with the help of a regression function.
 The project was done for the TU Berlin.
 
