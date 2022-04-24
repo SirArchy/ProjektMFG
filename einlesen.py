@@ -8,13 +8,14 @@ import csv
 
 def refine_all_data(folder='Runde_2', save_data = True):
     '''
+        Liest alle Messdaten aus angegebenen Order ein, filtert diese Daten und speichert sie in einem Array
         
-        input:  folder (int), 
-                save_data (boolean), 
+        input:  folder (int) 
+                save_data (boolean) 
                 
-        output: savgol_arr (array),
-                columns (array),
-                konz (array),
+        output: savgol_arr (array)
+                columns (array)
+                konz (array)
     '''
     data = pd.read_csv("all_data.txt")#Liest all data als pandas datenbank ein
 
@@ -44,8 +45,9 @@ def refine_all_data(folder='Runde_2', save_data = True):
 # liest mW und s aus dem Namen aus
 def get_mW_and_s(string):
     '''
+        Laserleistung und Belichtungszeit werden ausgelesen
         
-        input:  string (str), 
+        input:  string (str) 
                 
         output: mW * s
     '''
@@ -73,10 +75,11 @@ def get_mW_and_s(string):
 
 def get_concentrations(list): #In der Funktion wird davon ausgegangen, dass die Konzentration die erste zahl im dateinamen ist  WICHTIG: . statt ,
     '''
+        Konzentrationen werden von Liste in Array umgewandelt
         
-        input:  list (array), 
+        input:  list (list) 
                 
-        output: konz (array),
+        output: konz (array)
     '''
     
     konz = []
@@ -93,13 +96,14 @@ def get_concentrations(list): #In der Funktion wird davon ausgegangen, dass die 
 
 def get_urea_data(folder = 'Urea_Messungen', save_data = True):   #Im Übergeordneten Ordner müssen die einzelnen Dateien hier vom Typen 'Urea (20mg, 25.02.2022) 24mW 5s'
     '''
+        Urea Daten im Ordner werden eingelesen und in einen Numpy Array umgewandelt
         
-        input:  folder (str), 
-                save_data (boolean), 
+        input:  folder (str) 
+                save_data (boolean)
                 
-        output: x (), 
-                columns (),
-                konz (), 
+        output: x (array)
+                columns (array)
+                konz (array) 
     '''
     
     if folder not in  os.getcwd():              #Der ordner wird geöffnet
@@ -129,11 +133,12 @@ def get_urea_data(folder = 'Urea_Messungen', save_data = True):   #Im Übergeord
 
 def readout_file(file_name):
     '''
+        Einzelne Datei wird eingelesen um diesen zu normen
         
-        input:  file_name (str), 
+        input:  file_name (str) 
 
-        output: arr_glatt (array), 
-                name_array (array), 
+        output: arr_glatt (array) 
+                name_array (array)
     '''
     
     array = np.loadtxt(file_name)                        #Eine einzelne Datei wird eingelesen
@@ -157,9 +162,10 @@ def readout_file(file_name):
 
 def get_combined_data(folder = 'Urea_Messungen', save_data = True):
     '''
+        Speichert alle Messdaten von Urea in einem Array und filter diese in 3 verschiedene Dateien.
         
-        input:  folder (str), 
-                save_data (boolean), 
+        input:  folder (str) 
+                save_data (boolean) 
                 
         output: None
     '''
