@@ -18,5 +18,5 @@ The project was done for the TU Berlin.
 - CSV 
 - OS
 ## Launch
-To run this project you need to open ....py and choose the name of the file you want to analyse & which you want to predict.
+To run this project you need to open einlesen.py and enter the folder name in which the measured data is stored. These will be processed to be used for the regression predicition. Once that is down you need to open regression.py and choose the name of the file you want to analyse & which you want to predict.
 Afterwards you will get a .csv file in which are all the predicted values for your chosen file.
