@@ -120,7 +120,6 @@ def get_urea_data(folder = 'Urea_Messungen', save_data = True):   #Im Übergeord
         columns +=b
 
 
-    #np.concatenate()
     x = np.vstack([data[i] for i in range(len(data))])   #Hier wird von einer Python liste zu einem Numpy Array gewechselt
     konz = get_concentrations(columns)
     os.chdir("..")
@@ -144,7 +143,6 @@ def readout_file(file_name):
     array = np.loadtxt(file_name)                        #Eine einzelne Datei wird eingelesen
 
     array = array.transpose()                            #Durch diesen Befehl hat das array die Form a[22][36**] wodurch es leichter zu glätten ist
-    #print(type(array))
     x_free_array = np.stack([array[i] for i in range(1, array.shape[0], 2)])        #Hier werden die x-achsen entfernt, welche an allen geraden stellen im Array liegen entfernt(a[0],a[2] sind x-achsen)
 
     element_name = file_name.replace('.txt','')                                     #Das .txt ist komplett irrelevant und wird entfernt
