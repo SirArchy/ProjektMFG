@@ -1,12 +1,9 @@
 import numpy as np
-#import os
-#import scipy.signal as sg
-#import re
-#import cs
 import random
-#from numpy import genfromtxt  ----> data = genfromtxt('daten.csv', delimiter = ',') um csv einzulesen
+
 def lineare_regression(anzahl_versuche,stoff='Pentan'):
     '''
+        Führt Lineare Regression X mal durch für die angegebenen Stoffdaten
         
         input:  anzahl_versuche (int), 
                 stoff (str), 
@@ -35,14 +32,14 @@ def lineare_regression(anzahl_versuche,stoff='Pentan'):
             genutzte_messreihen += 1
     
     teta = 0
-    zeta_jones = 0
+    zeta = 0
     
     for i in range(data_length):
         messung_betrag_gesamt.append(np.sum(Data[i]) / len(Konz))
         if 'Wasser' in Columns[i]:
             teta+=1
-            zeta_jones += Data[i][peak] / messung_betrag_gesamt[i]
-    baseline_höhe = zeta_jones / teta
+            zeta += Data[i][peak] / messung_betrag_gesamt[i]
+    baseline_höhe = zeta / teta
 
     for x in range(anzahl_versuche):
 
@@ -71,9 +68,9 @@ def lineare_regression(anzahl_versuche,stoff='Pentan'):
 
 
 
-def calculate_abw(array, betas, konz, summe, baseline): #Hier wird die abweichund zwischen durch lin-reg erwarteter konz. und dem ergebnis ausgerechner und *aktuell* quadriert(ist das smart?)
+def calculate_abw(array, betas, konz, summe, baseline): 
     '''
-
+        Es wird die Abweichung zwischen, durch die Regression erwarteter, Konzentration und dem Ergebnis ausgerechnet und quadriert
         
         input:  array (array), 
                 betas (int), 
@@ -99,9 +96,9 @@ def calculate_abw(array, betas, konz, summe, baseline): #Hier wird die abweichun
     step_4 = abs(step_3 - konz)
     return step_4
 
-def get_random_betas(len, stoff): #die Funktion generiert betas und geht für die betas, welche Flächen abdecken sollen sicher, das diese aufsteigend sortiert sind
+def get_random_betas(len, stoff): 
     ''' 
-
+       Es werden betas generiert und für diese betas ausgerechnet, welche Flächen abgedeckt werden sollen. Außerdem wird sichergestellt, dass diese aufsteigend sortiert sind
         
         input:  len (int),
                 stoff (str), 
@@ -130,12 +127,9 @@ def get_random_betas(len, stoff): #die Funktion generiert betas und geht für di
 
 
 
-def get_array_sum(array, b1, b2): #berechnet die summe der messwerte zwichen zwei Punkten, ist bestimmt irgendwie sinnvoll
+def get_array_sum(array, b1, b2): #
     ''' 
-        Lädt die Daten aus den .txt Datein, sliced auf den angegebenen Wellenlängenbereich, glättet die Funktion, 
-        erzeugt neue Daten aus den übergebenen Datenmatrizen, visualisiert die Spektren, berechnet die Intensitätswerte,
-        plottet Intensitätswerte über Konzentration.
-        Optional: Speichert die erzeugten Daten und die berechneten Intensitätswerte als Arrays ab.
+        Berechnet die Summe der Messwerte zwischen zwei Punkten
         
         input:  array (array), 
                 b1 (int),
@@ -153,7 +147,7 @@ def get_array_sum(array, b1, b2): #berechnet die summe der messwerte zwichen zwe
 
 def Write_results_to_txt(betas, abweichung, stoff):
     ''' 
-
+        Wandelt die Ergebnisse der Regression in eine txt Datei um
         
         input:  betas (array), 
                 abweichung (int), 
@@ -166,12 +160,12 @@ def Write_results_to_txt(betas, abweichung, stoff):
             file.write(str(i)+' ')
         file.write('die Berechnete durchschnittliche Abweichung beträgt: ' + str(abweichung) + ' für den Stoff: ' + stoff)
         file.write('\n')
-        #file.write('\n'.join(str(item) for item in betas))
 
 
 def backwards(betas, stoff = 'Pentan'):
     ''' 
-
+        Führt Lineare Regression rückwärts durch mit den angegebenen Beta und für die angegebenen Stoffdaten
+        
         input:  betas (array), 
                 stoff (str), 
                 
@@ -190,16 +184,14 @@ def backwards(betas, stoff = 'Pentan'):
         peak = 329
 
     teta = 0
-    zeta_jones = 0
-#    peak_heights = []
+    zeta = 0
     for i in range(data_length):
         messung_betrag_gesamt.append(np.sum(Data[i]) / len(Konz))
-#        peak_heights.append(np.argmax(Data[i][peak-10:peak+10]))
 
         if 'Wasser' in Columns[i]:
             teta+=1
-            zeta_jones += Data[i][peak] / messung_betrag_gesamt[i]
-    baseline_höhe = zeta_jones / teta
+            zeta += Data[i][peak] / messung_betrag_gesamt[i]
+    baseline_höhe = zeta / teta
 
     Konz_abw = []
     konzentrationen=[]
@@ -209,9 +201,6 @@ def backwards(betas, stoff = 'Pentan'):
     for i in range(len(Data)):
         if stoff in Columns[i]:
             Konz_and_mws = [Konz[i], get_mW_and_s(Columns[i])]
-            #print(Konz_and_mws)
-            #print(Konz_and_mws not in konzentrationen)
-            #print(konzentrationen)
             if Konz_and_mws not in konzentrationen:
                 konzentrationen.append(Konz_and_mws)
                 Konz_abw.append(calculate_abw(Data[i], betas, Konz[i], messung_betrag_gesamt[i], baseline_höhe))
@@ -219,18 +208,17 @@ def backwards(betas, stoff = 'Pentan'):
                 for j in range(len(konzentrationen)):
                     if konzentrationen[j] == Konz_and_mws:
                         Konz_abw[j] += calculate_abw(Data[i], betas, Konz[i], messung_betrag_gesamt[i], baseline_höhe)
-    #for i in range(len(konzentrationen)):
-    #    erg.append()
 
     return konzentrationen, Konz_abw
 
 def get_mW_and_s(string):
-    ''' 
-
-        input:  string (str), 
+    '''
+        Laserleistung und Belichtungszeit werden ausgelesen
+        
+        input:  string (str) 
                 
-        output: mW * s (int),  
-    '''    
+        output: mW * s
+    '''
     #sucht nach mW und geht von dort an nach links, bis keine zahl mehr aufgerufen wird
     x = string.find('mW') -1
     y = 1
