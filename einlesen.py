@@ -7,6 +7,15 @@ import csv
 
 
 def refine_all_data(folder='Runde_2', save_data = True):
+    '''
+        
+        input:  folder (int), 
+                save_data (boolean), 
+                
+        output: savgol_arr (array),
+                columns (array),
+                konz (array),
+    '''
     data = pd.read_csv("all_data.txt")#Liest all data als pandas datenbank ein
 
     arr = data.values                                       #pandas->numpy
@@ -34,6 +43,12 @@ def refine_all_data(folder='Runde_2', save_data = True):
 
 # liest mW und s aus dem Namen aus
 def get_mW_and_s(string):
+    '''
+        
+        input:  string (str), 
+                
+        output: mW * s
+    '''
 
     #sucht nach mW und geht von dort an nach links, bis keine zahl mehr aufgerufen wird
     x = string.find('mW') -1
@@ -57,6 +72,13 @@ def get_mW_and_s(string):
     return mW * s #Multiplikation um die Energie in millijoule zu bekommen
 
 def get_concentrations(list): #In der Funktion wird davon ausgegangen, dass die Konzentration die erste zahl im dateinamen ist  WICHTIG: . statt ,
+    '''
+        
+        input:  list (array), 
+                
+        output: konz (array),
+    '''
+    
     konz = []
     for i in list:
         if i == 'x':  #Eine Exception für die x-achse da ohne Zahl sonst ein Fehler auftreten würde. hier wird für weitere verarbeitung ein -1 Platzhalter gewählt. 
@@ -70,7 +92,16 @@ def get_concentrations(list): #In der Funktion wird davon ausgegangen, dass die 
 
 
 def get_urea_data(folder = 'Urea_Messungen', save_data = True):   #Im Übergeordneten Ordner müssen die einzelnen Dateien hier vom Typen 'Urea (20mg, 25.02.2022) 24mW 5s'
-
+    '''
+        
+        input:  folder (str), 
+                save_data (boolean), 
+                
+        output: x (), 
+                columns (),
+                konz (), 
+    '''
+    
     if folder not in  os.getcwd():              #Der ordner wird geöffnet
         os.chdir(folder)
 
@@ -97,7 +128,14 @@ def get_urea_data(folder = 'Urea_Messungen', save_data = True):   #Im Übergeord
 
 
 def readout_file(file_name):
+    '''
+        
+        input:  file_name (str), 
 
+        output: arr_glatt (array), 
+                name_array (array), 
+    '''
+    
     array = np.loadtxt(file_name)                        #Eine einzelne Datei wird eingelesen
 
     array = array.transpose()                            #Durch diesen Befehl hat das array die Form a[22][36**] wodurch es leichter zu glätten ist
@@ -118,6 +156,14 @@ def readout_file(file_name):
     return arr_glatt, name_array
 
 def get_combined_data(folder = 'Urea_Messungen', save_data = True):
+    '''
+        
+        input:  folder (str), 
+                save_data (boolean), 
+                
+        output: None
+    '''
+    
     Urea_arr, Urea_columns, Urea_konz = get_urea_data(folder, False)
     allData_arr, all_Data_columns, allData_konz = refine_all_data(save_data=False)
 
