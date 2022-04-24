@@ -6,7 +6,13 @@ import numpy as np
 import random
 #from numpy import genfromtxt  ----> data = genfromtxt('daten.csv', delimiter = ',') um csv einzulesen
 def lineare_regression(anzahl_versuche,stoff='Pentan'):
-    
+    '''
+        
+        input:  anzahl_versuche (int), 
+                stoff (str), 
+                
+        output: None (bzw. es werden verschiedene Graphen geplottet, und/oder Daten abgespeichert)
+    '''
 
     #Daten Werden als Numpy Arrays eingelesen Data enthält die Messwerte, Columns wird verwendet um den Stoff auszulesen und Konz um die zu erwartende Konzentration zu berechnen
     Data    = np.loadtxt('Complete_Data.csv', delimiter=",")
@@ -55,7 +61,7 @@ def lineare_regression(anzahl_versuche,stoff='Pentan'):
             elif 'Wasser' in Columns[i]:  #Alternativ statt 'Wasser' geht auch (stoff not in Columns[i] and Konz[i] > 0) das 2. argument ist hauptsächlich wegen der x-achse wichtig
                 abweichung_ges += calculate_abw(Data[i], betas, 0, messung_betrag_gesamt[i], baseline_höhe)
 
-    #Checkt ob die aktuellen betas besser als die vorherig besten sind und speichert diese ggf. ab         
+    #Checkt ob die aktuellen betas besser als die vorherigen besten sind und speichert diese ggf. ab         
         if abweichung_ges < abweichung_min:
             betas_min = betas
             abweichung_min = abweichung_ges
@@ -66,7 +72,17 @@ def lineare_regression(anzahl_versuche,stoff='Pentan'):
 
 
 def calculate_abw(array, betas, konz, summe, baseline): #Hier wird die abweichund zwischen durch lin-reg erwarteter konz. und dem ergebnis ausgerechner und *aktuell* quadriert(ist das smart?)
+    '''
 
+        
+        input:  array (array), 
+                betas (int), 
+                konz (int),  
+                summe (int),
+                baseline (int), 
+                
+        output: beta1, beta2, beta3, beta4, beta5, beta6, beta7, beta8 (int)
+    '''
     '''
     Currently best for Penthan
     step_1 = abs(array[730] -array[betas[2]])
@@ -84,6 +100,15 @@ def calculate_abw(array, betas, konz, summe, baseline): #Hier wird die abweichun
     return step_4
 
 def get_random_betas(len, stoff): #die Funktion generiert betas und geht für die betas, welche Flächen abdecken sollen sicher, das diese aufsteigend sortiert sind
+    ''' 
+
+        
+        input:  len (int),
+                stoff (str), 
+                
+        output: beta1, beta2, beta3, beta4, beta5, beta6, beta7, beta8 (int)
+    '''
+    
     beta1 = random.randint(709,756)#Beta 1 und 2 sollen den Pentan peak einfangen
     beta2 = random.randint(720,730)
 
@@ -106,6 +131,19 @@ def get_random_betas(len, stoff): #die Funktion generiert betas und geht für di
 
 
 def get_array_sum(array, b1, b2): #berechnet die summe der messwerte zwichen zwei Punkten, ist bestimmt irgendwie sinnvoll
+    ''' 
+        Lädt die Daten aus den .txt Datein, sliced auf den angegebenen Wellenlängenbereich, glättet die Funktion, 
+        erzeugt neue Daten aus den übergebenen Datenmatrizen, visualisiert die Spektren, berechnet die Intensitätswerte,
+        plottet Intensitätswerte über Konzentration.
+        Optional: Speichert die erzeugten Daten und die berechneten Intensitätswerte als Arrays ab.
+        
+        input:  array (array), 
+                b1 (int),
+                b2 (int), 
+                
+        output: sum (int), 
+    '''
+    
     sum = 0
     
     for i in range(b1, b2):
@@ -114,6 +152,15 @@ def get_array_sum(array, b1, b2): #berechnet die summe der messwerte zwichen zwe
 
 
 def Write_results_to_txt(betas, abweichung, stoff):
+    ''' 
+
+        
+        input:  betas (array), 
+                abweichung (int), 
+                stoff (str), 
+                
+        output: None
+    '''
     with open('results.txt', 'a') as file:
         for i in betas:
             file.write(str(i)+' ')
@@ -121,45 +168,16 @@ def Write_results_to_txt(betas, abweichung, stoff):
         file.write('\n')
         #file.write('\n'.join(str(item) for item in betas))
 
-'''        
-def calculate_abw(array, betas, konz): #Hier wird die abweichund zwischen durch lin-reg erwarteter konz. und dem ergebnis ausgerechner und *aktuell* quadriert(ist das smart?)
 
-    #x = get_array_sum(array, betas[0], betas[1])
-    #y = get_array_sum(array, betas[2], betas[3])
-    return (abs((x**betas[4] -y) * betas[6] - konz)**2)#ist quadrieren hier sinnvoll?
-
-
-
-     
-def get_random_betas(len, stoff): #die Funktion generiert betas und geht für die betas, welche Flächen abdecken sollen sicher, das diese aufsteigend sortiert sind
-    x1 = random.randint(709,756)#Beta 1 und 2 sollen den Pentan peak einfangen
-    x2 = random.randint(709,756)
-    beta1 = min(x1,x2)
-    beta2 = max(x1,x2)
-    if beta1 == beta2:
-        beta2 +=1
-    x1 = random.randint(756,1000)#Beta 3 und 4 sollen den H2o peak einfangen
-    x2 = random.randint(756,1000)
-    beta3 = min(x1,x2)
-    beta4 = max(x1,x2)
-    if beta3 == beta4:
-        beta4 +=1
-
-    beta5 = random.random() * 3
-    beta6 = random.random() * 3
-
-    beta7 =  random.randint(100,1000000)# beta 7 soll die niedrigen Messwerte anheben, kein plan hat sich richtig angefühlt
-
-    x1 = random.randint(0,len-1)
-    x2 = random.randint(0,len-1)
-    beta8 = min(x1,x2)#betas 8 und 9 sind für Entropie wegen why not
-    beta9 = max(x1,x2)
-
-
-
-    return [beta1, beta2, beta3, beta4, beta5, beta6, beta7, beta8, beta9]
-'''
 def backwards(betas, stoff = 'Pentan'):
+    ''' 
+
+        input:  betas (array), 
+                stoff (str), 
+                
+        output: konzentrationen (array),
+                Konz_abw (array),
+    '''
     Data    = np.loadtxt('Complete_Data.csv', delimiter=",")
     Columns = np.genfromtxt('Complete_Data_columns.txt',delimiter='\n', dtype=str)
     Konz    = np.loadtxt('Complete_konzentrationen.txt')
@@ -207,7 +225,12 @@ def backwards(betas, stoff = 'Pentan'):
     return konzentrationen, Konz_abw
 
 def get_mW_and_s(string):
+    ''' 
 
+        input:  string (str), 
+                
+        output: mW * s (int),  
+    '''    
     #sucht nach mW und geht von dort an nach links, bis keine zahl mehr aufgerufen wird
     x = string.find('mW') -1
     y = 1
